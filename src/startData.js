@@ -18,7 +18,7 @@ export default [
   },
   {
     name: 'yellow',
-    color: 'goldenrod',
+    color: 'orange',
     boxes: [
       ...ascendingRow.map(value => ({
         value,

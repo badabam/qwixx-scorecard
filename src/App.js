@@ -18,18 +18,36 @@ export default function App() {
   }, [rows])
 
   return (
-    <Grid>
-      {rows.map((row, rowIndex) => (
-        <Row
-          key={rowIndex}
-          row={row}
-          rowIndex={rowIndex}
-          onFieldClick={onFieldClick}
-        />
-      ))}
-      <nav>{history && <button onClick={undo}>Rückgängig</button>}</nav>
-    </Grid>
+    <Wrapper>
+      <Rows>
+        {rows.map((row, rowIndex) => (
+          <Row
+            key={rowIndex}
+            row={row}
+            rowIndex={rowIndex}
+            onFieldClick={onFieldClick}
+          />
+        ))}
+      </Rows>
+      <Nav>
+        <Button onClick={reset} color="gray">
+          Neues Spiel
+        </Button>
+        {history && (
+          <Button onClick={undo} color="orange">
+            Rückgängig
+          </Button>
+        )}
+      </Nav>
+    </Wrapper>
   )
+
+  function reset() {
+    if (window.confirm('Wirklich ein neues Spiel anfangenn?')) {
+      setHistory(null)
+      setRows(startData)
+    }
+  }
 
   function undo() {
     setHistory(null)
@@ -80,7 +98,32 @@ export default function App() {
   }
 }
 
-const Grid = styled.div`
+const Button = styled.div`
+  cursor: default;
+  margin-top: auto;
+  height: 48px;
+  padding: 0 12px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  border: 2px solid ${p => p.color};
+  color: ${p => p.color};
+`
+
+const Rows = styled.div`
   display: grid;
   gap: 2px;
+`
+
+const Nav = styled.footer`
+  display: flex;
+  justify-content: space-between;
+`
+
+const Wrapper = styled.div`
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 12px;
+  height: 100%;
 `
