@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ReactComponent as Lock } from './img/lock.svg'
+import Lock from './Lock'
 import styled from 'styled-components/macro'
 import { produce } from 'immer'
 
@@ -16,30 +16,38 @@ function App() {
     {
       name: 'red',
       color: 'crimson',
-      boxes: [...ascendingRow.slice(), <Lock />].map(value => ({
-        value,
-      })),
+      boxes: [
+        ...ascendingRow.map(value => ({
+          value,
+        })),
+      ],
     },
     {
       name: 'yellow',
       color: 'goldenrod',
-      boxes: [...ascendingRow.slice(), <Lock />].map(value => ({
-        value,
-      })),
+      boxes: [
+        ...ascendingRow.map(value => ({
+          value,
+        })),
+      ],
     },
     {
       name: 'green',
       color: 'green',
-      boxes: [...descendingRow.slice(), <Lock />].map(value => ({
-        value,
-      })),
+      boxes: [
+        ...descendingRow.map(value => ({
+          value,
+        })),
+      ],
     },
     {
       name: 'blue',
       color: 'cornflowerblue',
-      boxes: [...descendingRow.slice(), <Lock />].map(value => ({
-        value,
-      })),
+      boxes: [
+        ...descendingRow.map(value => ({
+          value,
+        })),
+      ],
     },
   ])
 
@@ -66,6 +74,13 @@ function App() {
               </Box>
             )
           })}
+          <Box
+            color={row.color}
+            onClick={() => onBoxClick(rowIndex, 11)}
+            isChecked={row.boxes[10].checked}
+          >
+            <Lock isLocked={row.isLocked} />
+          </Box>
         </Row>
       ))}
     </Grid>
@@ -99,7 +114,6 @@ function App() {
             row.isLocked = true
             const boxes = row.boxes
             boxes[boxIndex].checked = true
-            boxes[boxIndex + 1].checked = true
           })
         )
       : setRows(
