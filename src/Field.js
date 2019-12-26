@@ -8,7 +8,7 @@ export default function Field({
   isDisabled,
   isChecked,
 }) {
-  const handleClick = () => isDisabled || onClick(children)
+  const handleClick = () => isDisabled || (onClick && onClick(children))
 
   return (
     <Square

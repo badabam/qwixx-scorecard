@@ -5,7 +5,7 @@ import Field from './Field'
 
 export default function Row({ row, rowIndex, onFieldClick }) {
   return (
-    <Wrapper key={row.name}>
+    <RowGrid key={row.name}>
       {row.boxes.map((box, boxIndex) => {
         const highestIndex = row.boxes.reduce(
           (acc, box, index) => (box.checked ? index : acc),
@@ -29,11 +29,11 @@ export default function Row({ row, rowIndex, onFieldClick }) {
           </Field>
         )
       })}
-    </Wrapper>
+    </RowGrid>
   )
 }
 
-const Wrapper = styled.section`
+export const RowGrid = styled.section`
   display: grid;
   gap: 2px;
   grid-template-columns: repeat(12, 1fr);

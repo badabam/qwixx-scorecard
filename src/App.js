@@ -2,33 +2,33 @@ import React, { useState, useEffect, useMemo } from 'react'
 import styled from 'styled-components/macro'
 import { produce } from 'immer'
 import { startRows, startMissed } from './startData'
-import Row from './Row'
+import Row, { RowGrid } from './Row'
 import { save, load } from './localStorage'
 import Result from './Result'
-import MissRow from './MissRow'
+import Missed from './Missed'
 
 export default function App() {
+  const [history, setHistory] = useState(load('qwixx-history') || null)
   const [rows, setRows] = useState(load('qwixx-rows') || startRows)
-  const [history, setHistory] = useState(null)
   const [missed, setMissed] = useState(load('qwixx-missed') || startMissed)
-
-  const numChecked = useMemo(
-    () =>
-      rows.map(row => row.boxes.reduce((a, b) => (b.checked ? a + 1 : a), 0)),
-    [rows]
+  const [forceGameOver, setForceGameOver] = useState(
+    load('qwixx-gameover') || false
   )
 
   const isGameOver = useMemo(
     () =>
+      forceGameOver ||
       missed.every(field => field.checked) ||
       rows.reduce((acc, row) => (row.isLocked ? acc + 1 : acc), 0) === 2,
-    [rows, missed]
+    [rows, missed, forceGameOver]
   )
 
   useEffect(() => {
+    save('qwixx-history', history)
     save('qwixx-rows', rows)
     save('qwixx-missed', missed)
-  }, [rows, missed])
+    save('qwixx-gameover', forceGameOver)
+  }, [history, rows, missed, forceGameOver])
 
   return (
     <Wrapper>
@@ -41,13 +41,23 @@ export default function App() {
             onFieldClick={onFieldClick}
           />
         ))}
-        <MissRow missed={missed} onMissed={handleMissed} />
+        <RowGrid>
+          <div css="display: flex; grid-column: span 8; align-items: center">
+            {isGameOver && <Result rows={rows} missed={missed} />}
+          </div>
+          <div css="grid-column: span 4;">
+            <Missed missed={missed} onMissed={handleMissed} />
+          </div>
+        </RowGrid>
       </Rows>
-      {isGameOver && <Result numChecked={numChecked} missed={missed} />}
       <Nav>
-        {isGameOver && (
+        {isGameOver ? (
           <Button onClick={reset} color="gray">
             Neues Spiel
+          </Button>
+        ) : (
+          <Button onClick={finish} color="crimson">
+            Spiel beenden
           </Button>
         )}
         {history && (
@@ -68,11 +78,19 @@ export default function App() {
     )
   }
 
+  function finish() {
+    if (window.confirm('Das Spiel beenden?')) {
+      setForceGameOver(true)
+      setHistory(null)
+    }
+  }
+
   function reset() {
     if (window.confirm('Wirklich ein neues Spiel anfangen?')) {
       setHistory(null)
       setRows(startRows)
       setMissed(startMissed)
+      setForceGameOver(false)
     }
   }
 
@@ -92,6 +110,10 @@ export default function App() {
   }
 
   function onFieldClick(rowIndex, boxIndex) {
+    if (isGameOver || forceGameOver) {
+      return
+    }
+
     const isLock = boxIndex === 11
 
     if (isLock) {
@@ -153,7 +175,5 @@ const Nav = styled.footer`
 
 const Wrapper = styled.div`
   display: grid;
-  grid-template-rows: auto 1fr;
-  gap: 12px;
   height: 100%;
 `
