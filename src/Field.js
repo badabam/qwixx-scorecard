@@ -25,7 +25,8 @@ export default function Field({
 const Square = styled.div`
   display: flex;
   cursor: default;
-  opacity: ${({ isDisabled }) => (isDisabled ? 0.5 : 1)};
+  opacity: ${({ isDisabled, isChecked }) =>
+    isDisabled && !isChecked ? 0.5 : 1};
   justify-content: center;
   align-items: center;
   color: white;

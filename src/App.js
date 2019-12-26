@@ -1,21 +1,34 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import styled from 'styled-components/macro'
 import { produce } from 'immer'
-import startData from './startData'
+import { startRows, startMissed } from './startData'
 import Row from './Row'
 import { save, load } from './localStorage'
+import Result from './Result'
+import MissRow from './MissRow'
 
 export default function App() {
-  const [rows, setRows] = useState(startData)
+  const [rows, setRows] = useState(load('qwixx-rows') || startRows)
   const [history, setHistory] = useState(null)
+  const [missed, setMissed] = useState(load('qwixx-missed') || startMissed)
 
-  useEffect(() => {
-    setRows(load('qwixx-rows'))
-  }, [])
+  const numChecked = useMemo(
+    () =>
+      rows.map(row => row.boxes.reduce((a, b) => (b.checked ? a + 1 : a), 0)),
+    [rows]
+  )
+
+  const isGameOver = useMemo(
+    () =>
+      missed.every(field => field.checked) ||
+      rows.reduce((acc, row) => (row.isLocked ? acc + 1 : acc), 0) === 2,
+    [rows, missed]
+  )
 
   useEffect(() => {
     save('qwixx-rows', rows)
-  }, [rows])
+    save('qwixx-missed', missed)
+  }, [rows, missed])
 
   return (
     <Wrapper>
@@ -28,11 +41,15 @@ export default function App() {
             onFieldClick={onFieldClick}
           />
         ))}
+        <MissRow missed={missed} onMissed={handleMissed} />
       </Rows>
+      {isGameOver && <Result numChecked={numChecked} missed={missed} />}
       <Nav>
-        <Button onClick={reset} color="gray">
-          Neues Spiel
-        </Button>
+        {isGameOver && (
+          <Button onClick={reset} color="gray">
+            Neues Spiel
+          </Button>
+        )}
         {history && (
           <Button onClick={undo} color="orange">
             Rückgängig
@@ -42,20 +59,31 @@ export default function App() {
     </Wrapper>
   )
 
+  function handleMissed(index) {
+    setHistory({ rows, missed })
+    setMissed(
+      produce(missed, draft => {
+        draft[index].checked = true
+      })
+    )
+  }
+
   function reset() {
-    if (window.confirm('Wirklich ein neues Spiel anfangenn?')) {
+    if (window.confirm('Wirklich ein neues Spiel anfangen?')) {
       setHistory(null)
-      setRows(startData)
+      setRows(startRows)
+      setMissed(startMissed)
     }
   }
 
   function undo() {
+    setRows(history.rows)
+    setMissed(history.missed)
     setHistory(null)
-    setRows(history)
   }
 
   function lockRow(rowIndex) {
-    setHistory(rows)
+    setHistory({ rows, missed })
     setRows(
       produce(rows, rowsDraft => {
         rowsDraft[rowIndex].isLocked = true
@@ -65,6 +93,7 @@ export default function App() {
 
   function onFieldClick(rowIndex, boxIndex) {
     const isLock = boxIndex === 11
+
     if (isLock) {
       return lockRow(rowIndex)
     }
@@ -76,7 +105,7 @@ export default function App() {
         0
       ) >= 5
 
-    setHistory(rows)
+    setHistory({ rows, missed })
 
     is12AndAllowed
       ? setRows(
@@ -85,6 +114,7 @@ export default function App() {
             row.isLocked = true
             const boxes = row.boxes
             boxes[boxIndex].checked = true
+            boxes[boxIndex + 1].checked = true
           })
         )
       : setRows(

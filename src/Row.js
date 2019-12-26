@@ -21,17 +21,14 @@ export default function Row({ row, rowIndex, onFieldClick }) {
             isDisabled={isDisabled}
             isChecked={box.checked}
           >
-            {box.value}
+            {box.value === 'lock' ? (
+              <Lock isLocked={row.isLocked} />
+            ) : (
+              box.value
+            )}
           </Field>
         )
       })}
-      <Field
-        color={row.color}
-        onClick={() => onFieldClick(rowIndex, 11)}
-        isChecked={row.boxes[10].checked}
-      >
-        <Lock isLocked={row.isLocked} />
-      </Field>
     </Wrapper>
   )
 }
