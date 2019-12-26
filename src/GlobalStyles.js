@@ -9,6 +9,14 @@ export default createGlobalStyle`
     margin: 0;
     font-family: sans-serif;
     font-size: 22px;
+
+    @media (orientation: portrait) {
+      width: 100vh;
+      height: 100vw;
+      transform-origin: top left;
+      transform: rotate(90deg) translate(0, -100%);
+
+    }
   }
 
   #root {
