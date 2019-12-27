@@ -3,9 +3,9 @@ import Lock from './Lock'
 import styled from 'styled-components/macro'
 import Field from './Field'
 
-export default function Row({ row, rowIndex, onFieldClick }) {
+export default function FieldRow({ row, rowIndex, onFieldClick }) {
   return (
-    <RowGrid key={row.name}>
+    <FieldRowGrid key={row.name}>
       {row.boxes.map((box, boxIndex) => {
         const highestIndex = row.boxes.reduce(
           (acc, box, index) => (box.checked ? index : acc),
@@ -29,11 +29,11 @@ export default function Row({ row, rowIndex, onFieldClick }) {
           </Field>
         )
       })}
-    </RowGrid>
+    </FieldRowGrid>
   )
 }
 
-export const RowGrid = styled.section`
+export const FieldRowGrid = styled.section`
   display: grid;
   gap: 2px;
   grid-template-columns: repeat(12, 1fr);

@@ -15,7 +15,6 @@ export default createGlobalStyle`
       height: 100vw;
       transform-origin: top left;
       transform: rotate(90deg) translate(0, -100%);
-
     }
   }
 
