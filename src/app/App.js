@@ -7,6 +7,7 @@ import { save, load } from './localStorage'
 import Result from './Result'
 import Missed from './Missed'
 import Navigation from './Navigation'
+import Div100vh from 'react-div-100vh'
 
 export default function App() {
   const [history, setHistory] = useState(load('qwixx-history') || null)
@@ -149,7 +150,7 @@ const Rows = styled.div`
 
 const Wrapper = styled.main`
   display: grid;
-  height: 100%;
   grid-template-rows: 5fr 1fr;
   background: white;
+  height: 100%;
 `

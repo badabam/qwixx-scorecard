@@ -1,6 +1,7 @@
 import { createGlobalStyle } from 'styled-components'
 
 export default createGlobalStyle`
+
   * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
@@ -11,12 +12,6 @@ export default createGlobalStyle`
     font-family: sans-serif;
     font-size: 22px;
     background: black;
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    overflow: hidden;
 
     @media (orientation: portrait) {
       width: 100vh;
@@ -27,10 +22,11 @@ export default createGlobalStyle`
   }
 
   #root {
-    /* position: fixed; */
-    padding:  0 env(safe-area-inset-right) 0 env(safe-area-inset-left);
-    /* top: 0; */
-    /* right: env(safe-area-inset-right); */
-    /* bottom: 0; */
+    position: fixed;
+    /* padding:  0 env(safe-area-inset-right) 0 env(safe-area-inset-left); */
+    top: 0;
+    right: env(safe-area-inset-right);
+    bottom: 0;
+    left: env(safe-area-inset-left);
   }
 `
