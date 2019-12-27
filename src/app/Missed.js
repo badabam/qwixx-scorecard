@@ -24,4 +24,5 @@ const Wrapper = styled.section`
   gap: 2px;
   grid-template-columns: repeat(4, 1fr);
   grid-auto-rows: 1fr;
+  height: 100%;
 `

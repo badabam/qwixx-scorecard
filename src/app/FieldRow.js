@@ -7,12 +7,17 @@ export default function FieldRow({ row, rowIndex, onFieldClick }) {
   return (
     <FieldRowGrid key={row.name}>
       {row.boxes.map((box, boxIndex) => {
-        const highestIndex = row.boxes.reduce(
-          (acc, box, index) => (box.checked ? index : acc),
-          0
+        const { highestIndex, totalChecked } = row.boxes.reduce(
+          (acc, box, index) =>
+            box.checked
+              ? { highestIndex: index, totalChecked: acc.totalChecked + 1 }
+              : acc,
+          { highestIndex: 0, totalChecked: 0 }
         )
 
         const isDisabled = row.isLocked || boxIndex < highestIndex
+        const isHighlighted =
+          totalChecked >= 5 && !isDisabled && boxIndex === row.boxes.length - 2
         return (
           <Field
             key={row.name + boxIndex}
@@ -20,6 +25,7 @@ export default function FieldRow({ row, rowIndex, onFieldClick }) {
             onClick={() => onFieldClick(rowIndex, boxIndex)}
             isDisabled={isDisabled}
             isChecked={box.checked}
+            isHighlighted={isHighlighted}
           >
             {box.value === 'lock' ? (
               <Lock isLocked={row.isLocked} />

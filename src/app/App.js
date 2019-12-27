@@ -147,7 +147,9 @@ const Rows = styled.div`
   gap: 2px;
 `
 
-const Wrapper = styled.div`
+const Wrapper = styled.main`
   display: grid;
   height: 100%;
+  grid-template-rows: 5fr 1fr;
+  background: white;
 `
