@@ -1,7 +1,9 @@
 import React from 'react'
 import styled, { keyframes } from 'styled-components/macro'
 
-export default function Field({
+export default React.memo(Field)
+
+function Field({
   children,
   color,
   onClick,

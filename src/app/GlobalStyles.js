@@ -5,6 +5,7 @@ export default createGlobalStyle`
   * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
+    user-select: none;
   }
 
   body {

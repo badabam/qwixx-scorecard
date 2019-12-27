@@ -3,9 +3,11 @@ import Lock from './Lock'
 import styled from 'styled-components/macro'
 import Field from './Field'
 
-export default function FieldRow({ row, rowIndex, onFieldClick }) {
+export default React.memo(FieldRow)
+
+function FieldRow({ row, rowIndex, onFieldClick }) {
   return (
-    <FieldRowGrid key={row.name}>
+    <FieldRowGrid>
       {row.boxes.map((box, boxIndex) => {
         const { highestIndex, totalChecked } = row.boxes.reduce(
           (acc, box, index) =>

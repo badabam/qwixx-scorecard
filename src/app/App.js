@@ -7,7 +7,6 @@ import { save, load } from './localStorage'
 import Result from './Result'
 import Missed from './Missed'
 import Navigation from './Navigation'
-import Div100vh from 'react-div-100vh'
 
 export default function App() {
   const [history, setHistory] = useState(load('qwixx-history') || null)
@@ -37,7 +36,7 @@ export default function App() {
       <Rows>
         {rows.map((row, rowIndex) => (
           <FieldRow
-            key={rowIndex}
+            key={row.name}
             row={row}
             rowIndex={rowIndex}
             onFieldClick={onFieldClick}
