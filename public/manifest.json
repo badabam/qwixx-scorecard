@@ -1,6 +1,6 @@
 {
-  "short_name": "Qwixx - Spielzettel",
-  "name": "Qwixx - Digitaler Spielzettel",
+  "short_name": "Qwixx - Scorecard",
+  "name": "Qwixx - A Scorecard for private use",
   "icons": [
     {
       "src": "favicon.ico",

@@ -19,7 +19,7 @@ export default function App() {
   const isGameOver = useMemo(
     () =>
       forceGameOver ||
-      missed.every(field => field.checked) ||
+      missed.every((field) => field.checked) ||
       rows.reduce((acc, row) => (row.isLocked ? acc + 1 : acc), 0) === 2,
     [rows, missed, forceGameOver]
   )
@@ -64,21 +64,21 @@ export default function App() {
   function handleMissed(index) {
     setHistory({ rows, missed })
     setMissed(
-      produce(missed, draft => {
+      produce(missed, (draft) => {
         draft[index].checked = true
       })
     )
   }
 
   function finish() {
-    if (window.confirm('Das Spiel beenden?')) {
+    if (window.confirm('End game?')) {
       setForceGameOver(true)
       setHistory(null)
     }
   }
 
   function reset() {
-    if (window.confirm('Wirklich ein neues Spiel anfangen?')) {
+    if (window.confirm('You really want to start a new game?')) {
       setHistory(null)
       setRows(startRows)
       setMissed(startMissed)
@@ -95,7 +95,7 @@ export default function App() {
   function lockRow(rowIndex) {
     setHistory({ rows, missed })
     setRows(
-      produce(rows, rowsDraft => {
+      produce(rows, (rowsDraft) => {
         rowsDraft[rowIndex].isLocked = true
       })
     )
@@ -123,7 +123,7 @@ export default function App() {
 
     is12AndAllowed
       ? setRows(
-          produce(rows, rowsDraft => {
+          produce(rows, (rowsDraft) => {
             const row = rowsDraft[rowIndex]
             row.isLocked = true
             const boxes = row.boxes
@@ -134,7 +134,7 @@ export default function App() {
       : setRows(
           boxIndex === 10
             ? rows
-            : produce(rows, rowsDraft => {
+            : produce(rows, (rowsDraft) => {
                 const boxes = rowsDraft[rowIndex].boxes
                 boxes[boxIndex].checked = true
               })

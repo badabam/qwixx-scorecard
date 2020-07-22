@@ -4,7 +4,7 @@ import styled from 'styled-components/macro'
 export default function Result({ rows, missed }) {
   const results = useMemo(
     () =>
-      rows.map(row => ({
+      rows.map((row) => ({
         color: row.color,
         total: factorial(
           row.boxes.reduce((a, b) => (b.checked ? a + 1 : a), 0)
@@ -16,7 +16,7 @@ export default function Result({ rows, missed }) {
   const totalMissed = missed.reduce((a, c) => (c.checked ? a + c.value : a), 0)
   return (
     <Wrapper>
-      <span>Ergebnis: </span>
+      <span>Result: </span>
       {results.map(({ color, total }) => (
         <span key={color} css={{ color }}>
           {total}
@@ -25,7 +25,7 @@ export default function Result({ rows, missed }) {
       <span css={{ color: 'gray' }}>{totalMissed}</span>
       <strong css="display: grid; grid-auto-flow: column;">
         <span css={{ color: 'black' }}>
-          Gesamt: {results.reduce((a, c) => a + c.total, 0) + totalMissed}
+          Total: {results.reduce((a, c) => a + c.total, 0) + totalMissed}
         </span>
       </strong>
     </Wrapper>

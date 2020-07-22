@@ -13,16 +13,16 @@ export default function Navigation({
     <Wrapper>
       {isGameOver ? (
         <Button onClick={reset} color="gray">
-          Neues Spiel
+          New Game
         </Button>
       ) : (
         <Button onClick={finish} color="crimson">
-          Spiel beenden
+          End game
         </Button>
       )}
       {history && (
         <Button onClick={undo} color="orange">
-          Rückgängig
+          Undo
         </Button>
       )}
     </Wrapper>
