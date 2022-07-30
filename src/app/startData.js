@@ -14,17 +14,17 @@ export const startRows = [
   },
   {
     name: 'yellow',
-    color: 'orange',
+    color: '#d6a400',
     boxes: [...ascendingRow.slice(), { value: 'lock' }],
   },
   {
     name: 'green',
-    color: 'green',
+    color: '#038946',
     boxes: [...descendingRow.slice(), { value: 'lock' }],
   },
   {
     name: 'blue',
-    color: 'cornflowerblue',
+    color: '#444fbf',
     boxes: [...descendingRow.slice(), { value: 'lock' }],
   },
 ]

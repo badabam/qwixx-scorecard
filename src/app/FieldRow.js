@@ -20,6 +20,8 @@ function FieldRow({ row, rowIndex, onFieldClick }) {
         const isDisabled = row.isLocked || boxIndex < highestIndex
         const isHighlighted =
           totalChecked >= 5 && !isDisabled && boxIndex === row.boxes.length - 2
+        const isDisabledFinalCell = 
+          totalChecked < 5 && boxIndex === row.boxes.length - 2
         return (
           <Field
             key={row.name + boxIndex}
@@ -28,6 +30,7 @@ function FieldRow({ row, rowIndex, onFieldClick }) {
             isDisabled={isDisabled}
             isChecked={box.checked}
             isHighlighted={isHighlighted}
+            isDisabledFinalCell={isDisabledFinalCell}
           >
             {box.value === 'lock' ? (
               <Lock isLocked={row.isLocked} />

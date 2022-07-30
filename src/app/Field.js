@@ -10,15 +10,18 @@ function Field({
   isDisabled,
   isChecked,
   isHighlighted,
+  isDisabledFinalCell
 }) {
   const handleClick = () => isDisabled || (onClick && onClick(children))
 
   return (
     <Square
       color={color}
-      isDisabled={isDisabled}
+      isDisabled={isDisabled || isDisabledFinalCell}
       onClick={handleClick}
       isChecked={isChecked}
+      isHighlighted={isHighlighted}
+      isDisabledFinalCell={isDisabledFinalCell}
     >
       {isChecked && <Cross />}
       <Num doWobble={isHighlighted}>{children}</Num>
@@ -32,7 +35,7 @@ const wobble = keyframes`
   }
 
   to {
-    transform: scale(1.2)
+    transform: scale(1.3)
   }
 `
 
@@ -77,11 +80,11 @@ const Cross = styled.div.attrs({ children: '✗' })`
 const Square = styled.div`
   display: flex;
   cursor: default;
-  opacity: ${({ isDisabled, isChecked }) => (isDisabled && !isChecked ? 1 : 1)};
+  opacity: ${({ isDisabled, isChecked }) => (isDisabled && !isChecked ? 0.6 : 1)};
   justify-content: center;
   align-items: center;
-  color: ${({ isDisabled, isChecked }) =>
-    isDisabled && !isChecked ? '#fff8' : 'white'};
+  color: ${({ isDisabled, isChecked, isDisabledFinalCell }) =>
+    isDisabled && !isChecked ? '#dfdfdf' : 'white'};
   background: ${({ color }) => color};
   position: relative;
 
