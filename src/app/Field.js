@@ -21,7 +21,6 @@ function Field({
       onClick={handleClick}
       isChecked={isChecked}
       isHighlighted={isHighlighted}
-      isDisabledFinalCell={isDisabledFinalCell}
     >
       {isChecked && <Cross />}
       <Num doWobble={isHighlighted}>{children}</Num>
